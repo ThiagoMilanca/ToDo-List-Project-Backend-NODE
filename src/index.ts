@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { appRouter } from './app.router';
 
 dotenv.config();
 
@@ -14,6 +15,10 @@ app.get('/', (req, res) => {
     res.send('🚀 Server working correctly!');
 });
 
-app.listen(PORT, () => {
+app.use('/', appRouter);
+
+const server = app.listen(PORT, () => {
     console.log(`🔥 Server running on http://localhost:${PORT}`);
 });
+
+export { app, server };

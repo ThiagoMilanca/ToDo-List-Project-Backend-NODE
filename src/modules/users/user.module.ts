@@ -1,7 +1,6 @@
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { UserRepository } from './user.repository';
-import { User } from './user.entity';
 import * as jwt from 'jsonwebtoken';
 import { DataSource } from 'typeorm';
 

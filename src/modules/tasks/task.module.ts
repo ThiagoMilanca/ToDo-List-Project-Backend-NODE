@@ -3,7 +3,6 @@ import { TaskController } from './task.controller';
 import { TaskService } from './task.service';
 import { TaskRepository } from './task.repository';
 import { UserRepository } from '../users/user.repository';
-import { User } from '../users/user.entity';
 
 export class TaskModule {
     private taskController: TaskController;

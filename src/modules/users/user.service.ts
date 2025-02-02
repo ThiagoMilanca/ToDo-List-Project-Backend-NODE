@@ -4,17 +4,17 @@ import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { DataSource } from 'typeorm';
 import { Response } from 'express';
-import { JwtService } from 'jsonwebtoken';
+import { AuthService } from '../../auth/auth.service';
 
 type UserWithoutPassword = Omit<User, 'password'>;
 
 export class UserService {
     private userRepository: UserRepository;
-    private jwtService: JwtService;
+    private jwtService: AuthService;
 
     constructor(dataSource: DataSource) {
         this.userRepository = new UserRepository(dataSource);
-        this.jwtService = new JwtService();
+        this.jwtService = new AuthService();
     }
 
     async register(registerDto: RegisterDto): Promise<User> {
@@ -50,7 +50,7 @@ export class UserService {
         }
 
         const payload = { email: user.email, sub: user.id };
-        const accessToken = this.jwtService.sign(payload);
+        const accessToken = this.jwtService.generateToken(payload);
 
         const { password: _, ...userWithoutPassword } = user;
 

@@ -9,7 +9,7 @@ export class TaskController {
         this.taskService = taskService;
     }
 
-    async createTask(req: Request, res: Response): Promise<Response> {
+    async createTask(req: Request, res: Response): Promise<void> {
         const { task, isActive } = req.body;
         const userId = req.params.userId;
 
@@ -17,58 +17,56 @@ export class TaskController {
 
         try {
             const newTask = await this.taskService.createTask(taskDto, userId);
-            return res.status(201).json(newTask);
+            res.status(201).json(newTask);
         } catch (error) {
-            return res.status(500).json({ message: error.message });
+            res.status(500).json({ message: error.message });
         }
     }
 
-    async getTasks(req: Request, res: Response): Promise<Response> {
+    async getTasks(req: Request, res: Response): Promise<void> {
         try {
             const tasks = await this.taskService.getTasks();
-            return res.status(200).json(tasks);
+            res.status(200).json(tasks);
         } catch (error) {
-            return res.status(500).json({ message: error.message });
+            res.status(500).json({ message: error.message });
         }
     }
 
-    async getTaskById(req: Request, res: Response): Promise<Response> {
+    async getTaskById(req: Request, res: Response): Promise<void> {
         const { id } = req.params;
 
         try {
             const task = await this.taskService.getTaskById(id);
             if (task) {
-                return res.status(200).json(task);
+                res.status(200).json(task);
             } else {
-                return res.status(404).json({ message: 'Task not found' });
+                res.status(404).json({ message: 'Task not found' });
             }
         } catch (error) {
-            return res.status(500).json({ message: error.message });
+            res.status(500).json({ message: error.message });
         }
     }
 
-    async getTasksByUserId(req: Request, res: Response): Promise<Response> {
+    async getTasksByUserId(req: Request, res: Response): Promise<void> {
         const { userId } = req.params;
 
         try {
             const tasks = await this.taskService.getTasksByUserId(userId);
-            return res.status(200).json(tasks);
+            res.status(200).json(tasks);
         } catch (error) {
-            return res.status(500).json({ message: error.message });
+            res.status(500).json({ message: error.message });
         }
     }
 
-    async updateTask(req: Request, res: Response): Promise<Response> {
+    async updateTask(req: Request, res: Response): Promise<void> {
         const { id } = req.params;
         const updateData: UpdateTaskDto = req.body;
 
         try {
             await this.taskService.updateTask(id, updateData);
-            return res
-                .status(200)
-                .json({ message: 'Task updated successfully' });
+            res.status(200).json({ message: 'Task updated successfully' });
         } catch (error) {
-            return res.status(500).json({ message: error.message });
+            res.status(500).json({ message: error.message });
         }
     }
 }
